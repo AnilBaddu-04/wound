@@ -11,15 +11,22 @@ import { API_BASE_URL } from './config';
 import './App.css';
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [user, setUser] = useState(null)
-  const [showIntro, setShowIntro] = useState(true)
+  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('accessToken'))
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('user');
+    try {
+      return saved ? JSON.parse(saved) : null;
+    } catch (e) {
+      return null;
+    }
+  })
+  const [showIntro, setShowIntro] = useState(!localStorage.getItem('accessToken'))
   const [notes, setNotes] = useState('')
   const [patientId, setPatientId] = useState('')
   const [images, setImages] = useState([]) // Stores {url, id} objects
   const [history, setHistory] = useState([])
   const [showHistory, setShowHistory] = useState(false)
-  const [activeTab, setActiveTab] = useState('dashboard'); // sidebar state
+  const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'dashboard'); // sidebar state
   const [isCreatingAssessment, setIsCreatingAssessment] = useState(false);
   const fileInputRef = useRef(null);
 
@@ -29,6 +36,7 @@ function App() {
     if (token && userStr) {
       setIsLoggedIn(true);
       setUser(JSON.parse(userStr));
+      setShowIntro(false); // Ensure intro is hidden if logged in
     }
   }, []);
 
@@ -236,6 +244,7 @@ function App() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
+    localStorage.removeItem('activeTab');
     setIsLoggedIn(false);
     setUser(null);
     setShowIntro(false);
@@ -245,6 +254,7 @@ function App() {
     <div className="dashboard-layout">
       <Sidebar onLogout={handleLogout} activeTab={activeTab} setActiveTab={(tab) => {
         setActiveTab(tab);
+        localStorage.setItem('activeTab', tab);
         setIsCreatingAssessment(false); // Reset to list view when switching tabs
       }} />
       <div className="main-content">
