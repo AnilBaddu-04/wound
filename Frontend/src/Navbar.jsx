@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Navbar.css';
 
-const Navbar = ({ activeTab }) => {
+const Navbar = ({ activeTab, user }) => {
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const Navbar = ({ activeTab }) => {
 
                 <div className="user-profile">
                     <div className="user-info">
-                        <span className="user-name">Dr. Sarah Smith</span>
+                        <span className="user-name">{user?.full_name || user?.username || 'Clinician'}</span>
                         <span className="user-role">Lead Wound Specialist</span>
                     </div>
                     <div className="user-avatar">

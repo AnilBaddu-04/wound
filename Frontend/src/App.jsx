@@ -12,6 +12,7 @@ import './App.css';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
   const [showIntro, setShowIntro] = useState(true)
   const [notes, setNotes] = useState('')
   const [patientId, setPatientId] = useState('')
@@ -24,8 +25,10 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
-    if (token) {
+    const userStr = localStorage.getItem('user');
+    if (token && userStr) {
       setIsLoggedIn(true);
+      setUser(JSON.parse(userStr));
     }
   }, []);
 
@@ -225,13 +228,16 @@ function App() {
   if (!isLoggedIn) {
     return <Login onLogin={() => {
       setIsLoggedIn(true);
+      setUser(JSON.parse(localStorage.getItem('user')));
     }} />
   }
 
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('user');
     setIsLoggedIn(false);
+    setUser(null);
     setShowIntro(false);
   };
 
@@ -242,7 +248,7 @@ function App() {
         setIsCreatingAssessment(false); // Reset to list view when switching tabs
       }} />
       <div className="main-content">
-        <Navbar activeTab={activeTab} />
+        <Navbar activeTab={activeTab} user={user} />
         <div className="page-content">
           {activeTab === 'dashboard' ? (
             <Dashboard />
