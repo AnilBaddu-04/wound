@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
+    padding: 12px 30px;
     border-bottom: 1px solid #e2e8f0;
     background: white;
 }
@@ -40,7 +40,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 20px;
 }
 
 .intro-card {
@@ -60,13 +60,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px;
+    padding: 20px;
 }
 
 .intro-image-pane img {
     width: 100%;
     height: auto;
-    max-height: 350px;
+    max-height: 300px;
     border-radius: 12px;
     object-fit: cover;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -74,38 +74,38 @@
 
 .intro-content-pane {
     flex: 1;
-    padding: 40px;
+    padding: 25px 30px;
     display: flex;
     flex-direction: column;
 }
 
 .step-counter {
     color: #94a3b8;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.05em;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 .step-title {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 800;
     color: #000;
     line-height: 1.1;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 .step-description {
     color: #64748b;
-    font-size: 0.9375rem;
+    font-size: 0.875rem;
     line-height: 1.5;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
 }
 
 .feature-list {
     list-style: none;
     padding: 0;
-    margin: 0 0 32px 0;
+    margin: 0 0 16px 0;
 }
 
 .feature-list li {
@@ -120,7 +120,7 @@
 
 .progress-container {
     margin-top: auto;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
 }
 
 .progress-bar-background {
@@ -138,7 +138,7 @@
 
 .intro-actions {
     display: flex;
-    gap: 16px;
+    gap: 12px;
 }
 
 .btn-prev {
@@ -160,7 +160,7 @@
 }
 
 .btn-next {
-    padding: 10px 20px;
+    padding: 8px 16px;
     background: #2563eb;
     border: none;
     border-radius: 10px;
@@ -173,7 +173,6 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    font-size: 0.875rem;
 }
 
 .btn-next:hover {
