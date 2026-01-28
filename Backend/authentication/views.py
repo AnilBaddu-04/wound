@@ -7,7 +7,11 @@ from django.core.mail import send_mail
 from django.conf import settings
 from .serializers import LoginSerializer, UserSerializer
 from .models import OTP
-from django.contrib.auth.models import update_last_login
+from django.contrib.auth.models import update_last_login, User
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.template.loader import render_to_string
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
@@ -137,3 +141,65 @@ def get_user_info(request):
     """
     serializer = UserSerializer(request.user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def password_reset_request(request):
+    """
+    Generate reset token and send email.
+    """
+    email = request.data.get('email')
+    if not email:
+        return Response({'message': 'Email is required'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        # We return success even if user doesn't exist for security reasons (email enumeration)
+        return Response({'message': 'If an account exists with this email, a reset link has been sent.'}, status=status.HTTP_200_OK)
+    
+    token = default_token_generator.make_token(user)
+    uid = urlsafe_base64_encode(force_bytes(user.pk))
+    
+    # In a real app, this would be your production frontend URL
+    reset_url = f"{settings.FRONTEND_URL}/?uid={uid}&token={token}" if hasattr(settings, 'FRONTEND_URL') else f"http://localhost:5173/?uid={uid}&token={token}"
+    
+    message = f"Hello {user.username},\n\nYou requested a password reset for your Wound Assessment Tool account. Please click the link below to set a new password:\n\n{reset_url}\n\nIf you did not request this, please ignore this email."
+    
+    try:
+        send_mail(
+            'Password Reset Request',
+            message,
+            settings.DEFAULT_FROM_EMAIL,
+            [user.email],
+            fail_silently=False,
+        )
+        return Response({'message': 'If an account exists with this email, a reset link has been sent.'}, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response({'message': 'Failed to send email.', 'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def password_reset_confirm(request):
+    """
+    Validate token and update password.
+    """
+    uidb64 = request.data.get('uid')
+    token = request.data.get('token')
+    new_password = request.data.get('new_password')
+    
+    if not all([uidb64, token, new_password]):
+        return Response({'message': 'All fields are required.'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+        
+    if user is not None and default_token_generator.check_token(user, token):
+        user.set_password(new_password)
+        user.save()
+        return Response({'message': 'Password has been reset successfully.'}, status=status.HTTP_200_OK)
+    else:
+        return Response({'message': 'The reset link is invalid or has expired.'}, status=status.HTTP_400_BAD_REQUEST)

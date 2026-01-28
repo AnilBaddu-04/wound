@@ -90,8 +90,25 @@ const Login = ({ onLogin }) => {
             }
         } else {
             if (resetEmail) {
-                alert(`Reset link sent to ${resetEmail}`);
-                setView('login');
+                try {
+                    const response = await fetch(`${API_BASE_URL}/api/auth/password-reset/`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ email: resetEmail })
+                    });
+                    const data = await response.json();
+                    if (response.ok) {
+                        alert(data.message || 'Reset link sent to your email.');
+                        setView('login');
+                    } else {
+                        alert(data.message || 'Failed to send reset link.');
+                    }
+                } catch (error) {
+                    console.error('Reset request error:', error);
+                    alert('An error occurred. Please try again later.');
+                }
             } else {
                 alert('Please enter your email');
             }

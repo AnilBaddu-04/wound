@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import Login from './Login';
+import ResetPassword from './ResetPassword';
 import Introduction from './Introduction';
 import Sidebar from './Sidebar';
 import Settings from './Settings';
@@ -28,15 +29,25 @@ function App() {
   const [showHistory, setShowHistory] = useState(false)
   const [activeTab, setActiveTab] = useState(localStorage.getItem('activeTab') || 'dashboard'); // sidebar state
   const [isCreatingAssessment, setIsCreatingAssessment] = useState(false);
+  const [resetData, setResetData] = useState(null); // {uid, token}
   const fileInputRef = useRef(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
+    // Check for password reset tokens in URL
+    const params = new URLSearchParams(window.location.search);
+    const uid = params.get('uid');
+    const token = params.get('token');
+
+    if (uid && token) {
+      setResetData({ uid, token });
+    }
+
+    const savedToken = localStorage.getItem('accessToken');
     const userStr = localStorage.getItem('user');
-    if (token && userStr) {
+    if (savedToken && userStr) {
       setIsLoggedIn(true);
       setUser(JSON.parse(userStr));
-      setShowIntro(false); // Ensure intro is hidden if logged in
+      setShowIntro(false);
     }
   }, []);
 
@@ -227,6 +238,20 @@ function App() {
     } finally {
       setIsAnalyzing(false);
     }
+  }
+
+  if (resetData) {
+    return (
+      <ResetPassword
+        uid={resetData.uid}
+        token={resetData.token}
+        onComplete={() => {
+          setResetData(null);
+          // Clear URL parameters
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }}
+      />
+    );
   }
 
   if (showIntro) {
