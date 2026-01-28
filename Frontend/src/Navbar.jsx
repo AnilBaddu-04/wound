@@ -47,15 +47,11 @@ const Navbar = ({ activeTab }) => {
             </div>
 
             <div className="navbar-right">
-                <div className="current-date-time" style={{ marginRight: '16px', textAlign: 'right', color: '#64748b', fontSize: '0.9rem' }}>
-                    <div style={{ fontWeight: '600' }}>{formattedTime}</div>
-                    <div style={{ fontSize: '0.8rem' }}>{formattedDate}</div>
-                </div>
                 <button className="icon-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                 </button>
                 <button className="icon-btn">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
                     <span className="notification-dot"></span>
                 </button>
 
@@ -67,7 +63,6 @@ const Navbar = ({ activeTab }) => {
                         <span className="user-role">Lead Wound Specialist</span>
                     </div>
                     <div className="user-avatar">
-                        {/* Placeholder for avatar image */}
                         <div className="avatar-placeholder"></div>
                     </div>
                 </div>

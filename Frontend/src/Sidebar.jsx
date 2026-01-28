@@ -17,7 +17,7 @@ const Sidebar = ({ onLogout, activeTab, setActiveTab }) => {
                 </div>
                 <div className="logo-text">
                     <h2>MediWound AI</h2>
-                    <p>CLINICIAN PORTAL</p>
+                    <p>HOSPITAL ADMIN</p>
                 </div>
             </div>
 

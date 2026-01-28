@@ -22,30 +22,30 @@
 }
 
 .logo-box {
-    width: 32px;
-    height: 32px;
-    background-color: #2563eb;
-    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    background-color: #2b62a8;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 20px;
+    font-size: 24px;
     font-weight: bold;
 }
 
 .logo-text h2 {
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 18px;
+    font-weight: 800;
     color: #0f172a;
     margin: 0;
 }
 
 .logo-text p {
     font-size: 10px;
-    color: #64748b;
+    color: #94a3b8;
     margin: 0;
-    font-weight: 600;
+    font-weight: 700;
     letter-spacing: 0.5px;
     margin-top: 2px;
 }
