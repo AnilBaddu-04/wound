@@ -59,7 +59,11 @@ const Navbar = ({ activeTab, user }) => {
 
                 <div className="user-profile">
                     <div className="user-info">
-                        <span className="user-name">{user?.full_name || user?.username || 'Clinician'}</span>
+                        <span className="user-name">
+                            {user?.first_name || user?.last_name ?
+                                `${user.first_name || ''} ${user.last_name || ''}`.trim() :
+                                (user?.full_name || user?.username || 'Clinician')}
+                        </span>
                         <span className="user-role">Lead Wound Specialist</span>
                     </div>
                     <div className="user-avatar">
