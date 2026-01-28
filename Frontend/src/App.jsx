@@ -236,7 +236,10 @@ function App() {
   if (!isLoggedIn) {
     return <Login onLogin={() => {
       setIsLoggedIn(true);
-      setUser(JSON.parse(localStorage.getItem('user')));
+      const userData = JSON.parse(localStorage.getItem('user'));
+      setUser(userData);
+      setActiveTab('dashboard');
+      localStorage.setItem('activeTab', 'dashboard');
     }} />
   }
 
